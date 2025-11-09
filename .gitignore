@@ -1,0 +1,43 @@
+# Visual Studio / Rider / VS Code
+.vs/
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build outputs
+bin/
+obj/
+out/
+publish/
+artifacts/
+
+# Rider
+*.sln.iml
+*.ipr
+*.iws
+
+# NuGet
+*.nupkg
+packages/
+project.lock.json
+
+# ASP.NET / .NET
+*.dll
+*.exe
+*.pdb
+*.cache
+*.ilk
+*.log
+*.vsix
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# Test results / coverage
+TestResults/
+coverage/
+*.trx
