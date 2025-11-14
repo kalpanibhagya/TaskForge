@@ -1,38 +1,49 @@
 ﻿namespace TaskForge.Tasks;
-
-public class Task
+public abstract class TaskBase
 {
-    public Guid TaskId { get; set; }
+    public Guid TaskId { get; protected set; }
     public string Name { get; set; }
     public string Description { get; set; }
-    public DateTime DueDate { get; set; }
-    public TaskStatus Status { get; set; }
-    public int Priority { get; set; }
-    public string Label { get; set; }
-    public Task(Guid taskId, string name, string description, DateTime dueDate, TaskStatus status, int priority)
+    public TaskStatus Status { get; set; } = TaskStatus.Todo;
+
+    public TaskBase(string name, string description)
     {
-        TaskId = taskId;
+        TaskId = Guid.NewGuid();
         Name = name;
-        Description = description;
-        DueDate = dueDate;
-        Status = status;
-        Priority = priority;
+        Description = description ?? "";
     }
+
+    public void MarkCompleted() => Status = TaskStatus.Completed;
+    public void MarkInProgress() => Status = TaskStatus.InProgress;
+    public void Hold() => Status = TaskStatus.OnHold;
+
 }
 
-public class Subtask
+public class TaskItem : TaskBase
 {
-    public Guid SubtaskId { get; set; }
-    public Guid ParentTaskId { get; set; }
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public TaskStatus Status { get; set; }
-    public Subtask(Guid subtaskId, Guid parentTaskId, string name, TaskStatus status)
+    public DateTime DueDate { get; set; }
+    public TaskPriority Priority { get; set; } = TaskPriority.Medium;
+    public string Label { get; set; }
+    public bool IsRecurring { get; set; } = false;
+
+    public TaskItem(string name, string description, DateTime dueDate)
+        : base(name, description)
     {
-        SubtaskId = subtaskId;
-        ParentTaskId = parentTaskId;
-        Name = name;
-        Status = status;
+        DueDate = dueDate;
+    }
+
+    public void MakeHighPrioty() => Priority = TaskPriority.High;
+    public void MarkLowPriority() => Priority = TaskPriority.Low;
+}
+
+public class Subtask : TaskBase
+{
+    public Guid ParentTaskId { get; set; }
+
+    public Subtask(Guid parentId, string name, string description)
+        : base(name, description)
+    {
+        ParentTaskId = parentId;
     }
 }
 
