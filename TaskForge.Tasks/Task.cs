@@ -1,4 +1,5 @@
 ﻿namespace TaskForge.Tasks;
+
 public abstract class TaskBase
 {
     public Guid TaskId { get; protected set; }
