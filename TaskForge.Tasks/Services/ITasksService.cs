@@ -30,7 +30,7 @@ public class TasksService : ITasksService
         throw new NotImplementedException();
     }
 
-    public Task GetTask()
+    public TaskItem GetTask()
     {
         throw new NotImplementedException();
     }
