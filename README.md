@@ -25,12 +25,6 @@ TaskForge is a small task management solution composed of a Blazor UI and a back
        "DefaultConnection": "Host=localhost;Port=5432;Database=taskforge;Username=postgres;Password=yourpassword"
      }
      ```
-- Enable XML docs (for Swagger summaries)
-   - In Visual Studio open __Project Properties__ > __Build__ for `TaskForge.Tasks.Service` and check "XML documentation file" or add to the `.csproj`:
-     ```xml
-     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-     <NoWarn>$(NoWarn);1591</NoWarn>
-     ```
 
 - EF Core migrations (example)
    - If migrations are not present, create and apply them from repo root:
