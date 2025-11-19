@@ -1,11 +1,21 @@
-﻿namespace TaskForge.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace TaskForge.Tasks;
 
 public abstract class TaskBase
 {
+    [Key]
     public Guid TaskId { get; protected set; }
+
+    [Required]
+    [MaxLength(200)]
     public string Name { get; set; }
+
     public string Description { get; set; }
     public TaskStatus Status { get; set; } = TaskStatus.Todo;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     public TaskBase(string name, string description)
     {
@@ -39,6 +49,7 @@ public class TaskItem : TaskBase
 
 public class Subtask : TaskBase
 {
+    [Required, ForeignKey(nameof(TaskItem))]
     public Guid ParentTaskId { get; set; }
 
     public Subtask(Guid parentId, string name, string description)

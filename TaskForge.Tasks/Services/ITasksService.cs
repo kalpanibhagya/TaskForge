@@ -2,12 +2,12 @@
 
 public interface ITasksService
 {
-    void CreateTask(string name, string description, DateTime dueDate);
-    void UpdateTaskStatus(Guid taskId, TaskStatus newStatus);
-    void DeleteTask(Guid taskId);
-    TaskItem GetTask();
-    void CreateSubtask(Guid parentTaskId, string name, string description);
-    void UpdateSubtaskStatus(Guid subtaskId, TaskStatus newStatus);
-    void DeleteSubtask(Guid subtaskId);
-    Subtask GetSubtask();
+    Task<TaskItem> CreateTask(string name, string description, DateTime dueDate);
+    Task UpdateTaskStatus(Guid taskId, TaskStatus newStatus);
+    Task DeleteTask(Guid taskId);
+    Task<TaskItem> GetTask(Guid taskId);
+    Task<Subtask> CreateSubtask(Guid parentTaskId, string name, string description);
+    Task UpdateSubtaskStatus(Guid subtaskId, TaskStatus newStatus);
+    Task DeleteSubtask(Guid subtaskId);
+    Task<Subtask> GetSubtask(Guid taskId);
 }
