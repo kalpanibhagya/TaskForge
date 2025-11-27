@@ -2,15 +2,15 @@
 
 TaskForge is a small task management solution composed of a Blazor UI and a backend Tasks service. This repository contains a Blazor client (`TaskForge.UI`) and an ASP.NET Core Web API service (`TaskForge.Tasks.Service`) that stores tasks and subtasks using Entity Framework Core with PostgreSQL.
 
-- `TaskForge.UI` — Blazor Server UI.
-- `TaskForge.Tasks.Service` — ASP.NET Core Web API (controllers).
-- `TaskForge.Tasks` — Shared domain models, EF Core database context and migrations.
+- `TaskForge.UI` - Blazor Server UI.
+- `TaskForge.Tasks.Service` - ASP.NET Core Web API (controllers).
+- `TaskForge.Tasks` - Shared domain models, EF Core database context and migrations.
 
 ## Features
 - CRUD for tasks and subtasks
 - Task status & priority
 - PostgreSQL using EF Core
-- Swagger/OpenAPI for API exploration (`/swagger`)
+- Swagger/OpenAPI for API exploration (`{hostaddress:port}/swagger/index.html`)
 
 ## Prerequisites
 - .NET 8 SDK
@@ -42,7 +42,7 @@ TaskForge is a small task management solution composed of a Blazor UI and a back
 
 - API docs
    - When running in Development, open the Swagger UI:
-     - `https://localhost:{port}/swagger/index.html` (port shown in `TaskForge.Tasks.Service/Properties/launchSettings.json`).
+     - `https://{hostaddress}:{port}/swagger/index.html`
 
 
 - If you change models, remember to add a new EF migration.

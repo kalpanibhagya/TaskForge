@@ -4,66 +4,73 @@
 [Route("Tasks")]
 public class TasksController : ControllerBase
 {
-    public required ITasksService TasksService { protected get; init; }
+    private readonly ITasksService _tasksService;
+
+    public TasksController(ITasksService tasksService)
+    {
+        _tasksService = tasksService ?? throw new ArgumentNullException(nameof(tasksService));
+    }
 
     //[HttpGet]
     //public async Task<IActionResult> GetAll() => Ok(await _svc.GetAllTasksAsync());
 
-    [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetTask(Guid id)
+    [HttpGet("getTask")]
+    public async Task<IActionResult> GetTask([FromQuery] GetTaskRequest request)
     {
-        var task = await TasksService.GetTask(id);
+        var task = await _tasksService.GetTask(request.TaskId);
         return task is null ? NotFound() : Ok(task);
     }
 
-    [HttpPost]
+    [HttpPost("createTask")]
     public async Task<IActionResult> CreateTask([FromBody] CreateTaskRequest request)
     {
-        var task = await TasksService.CreateTask(request.Name, request.Description, request.DueDate);
+        var task = await _tasksService.CreateTask(request.Name, request.Description, request.DueDate);
         return CreatedAtAction(nameof(GetTask), new { id = task.TaskId }, task);
     }
 
-    [HttpPatch("{id:guid}/status")]
+    [HttpPatch("updateStatus")]
     public async Task<IActionResult> UpdateStatus([FromBody] UpdateStatusRequest request)
     {
-        await TasksService.UpdateTaskStatus(request.TaskId, request.Status);
+        await _tasksService.UpdateTaskStatus(request.TaskId, request.Status);
         return NoContent();
     }
 
-    [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> Delete(Guid id)
+    [HttpDelete("deleteTask")]
+    public async Task<IActionResult> Delete([FromBody] DeleteTaskRequest request)
     {
-        await TasksService.DeleteTask(id);
+        await _tasksService.DeleteTask(request.TaskId);
         return NoContent();
     }
 
-    // Subtasks
-    [HttpPost("{id:guid}/subtasks")]
+    #region subtasks
+
+    [HttpPost("createSubtask")]
     public async Task<IActionResult> CreateSubtask([FromBody] CreateSubtaskRequest request)
     {
-        var sub = await TasksService.CreateSubtask(request.ParentId, request.Name, request.Description);
+        var sub = await _tasksService.CreateSubtask(request.ParentId, request.Name, request.Description);
         return CreatedAtAction(nameof(GetSubtask), new { subtaskId = sub.TaskId }, sub);
     }
 
-    [HttpGet("subtasks/{subtaskId:guid}")]
-    public async Task<IActionResult> GetSubtask(Guid subtaskId)
+    [HttpGet("getSubtask")]
+    public async Task<IActionResult> GetSubtask([FromQuery] GetTaskRequest request)
     {
-        var s = await TasksService.GetSubtask(subtaskId);
+        var s = await _tasksService.GetSubtask(request.TaskId);
         return s is null ? NotFound() : Ok(s);
     }
 
-    [HttpPatch("subtasks/{subtaskId:guid}/status")]
+    [HttpPatch("updateSubtaskStatus")]
     public async Task<IActionResult> UpdateSubtaskStatus([FromBody] UpdateStatusRequest request)
     {
-        await TasksService.UpdateSubtaskStatus(request.TaskId, request.Status);
+        await _tasksService.UpdateSubtaskStatus(request.TaskId, request.Status);
         return NoContent();
     }
 
-    [HttpDelete("subtasks/{subtaskId:guid}")]
+    [HttpDelete("deleteSubtask")]
     public async Task<IActionResult> DeleteSubtask(Guid subtaskId)
     {
-        await TasksService.DeleteSubtask(subtaskId);
+        await _tasksService.DeleteSubtask(subtaskId);
         return NoContent();
     }
-   
+
+    #endregion
 }

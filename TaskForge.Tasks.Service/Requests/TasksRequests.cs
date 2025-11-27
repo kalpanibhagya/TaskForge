@@ -17,6 +17,19 @@ public class UpdateStatusRequest
     [Required]
     public TaskStatus Status { get; set; }
 }
+
+public class GetTaskRequest
+{
+    [Required]
+    public Guid TaskId { get; set; }
+}
+
+public class DeleteTaskRequest
+{
+    [Required]
+    public Guid TaskId { get; set; }
+}
+
 public class CreateSubtaskRequest
 {
     [Required]
