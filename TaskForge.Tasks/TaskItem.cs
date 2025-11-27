@@ -1,21 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace TaskForge.Tasks;
+﻿namespace TaskForge.Tasks;
 
 public abstract class TaskBase
 {
-    [Key]
     public Guid TaskId { get; protected set; }
-
-    [Required]
-    [MaxLength(200)]
     public string Name { get; set; }
-
     public string Description { get; set; }
     public TaskStatus Status { get; set; } = TaskStatus.Todo;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
+    protected TaskBase() { }
 
     public TaskBase(string name, string description)
     {
@@ -36,7 +30,7 @@ public class TaskItem : TaskBase
     public TaskPriority Priority { get; set; } = TaskPriority.Medium;
     public string Label { get; set; }
     public bool IsRecurring { get; set; } = false;
-
+    protected TaskItem() : base() { }
     public TaskItem(string name, string description, DateTime dueDate)
         : base(name, description)
     {
@@ -49,9 +43,8 @@ public class TaskItem : TaskBase
 
 public class Subtask : TaskBase
 {
-    [Required, ForeignKey(nameof(TaskItem))]
     public Guid ParentTaskId { get; set; }
-
+    protected Subtask() : base() { }
     public Subtask(Guid parentId, string name, string description)
         : base(name, description)
     {
