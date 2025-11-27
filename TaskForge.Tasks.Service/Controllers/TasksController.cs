@@ -11,8 +11,7 @@ public class TasksController : ControllerBase
         _tasksService = tasksService ?? throw new ArgumentNullException(nameof(tasksService));
     }
 
-    //[HttpGet]
-    //public async Task<IActionResult> GetAll() => Ok(await _svc.GetAllTasksAsync());
+    // todo: error handling and add a controller to get all tasks
 
     [HttpGet("getTask")]
     public async Task<IActionResult> GetTask([FromQuery] GetTaskRequest request)
