@@ -1,4 +1,7 @@
-﻿namespace TaskForge.Tasks.Service;
+﻿using Microsoft.EntityFrameworkCore;
+using TaskForge.Tasks.Database;
+
+namespace TaskForge.Tasks.Service;
 
 class Program
 {
@@ -9,19 +12,21 @@ class Program
         Host.CreateDefaultBuilder(args)
             .ConfigureServices(services =>
             {
+                //services.AddEndpointsApiExplorer(); // for Swagger
+                services.AddDbContext<AppDbContext>(options =>
+                    options.UseNpgsql("Host=localhost;Port=5432;Database=dev-postgres;Username=postgres;Password=pasward"));
+                services.AddScoped<ITasksService, TasksService>();
                 services
                 .AddControllers() // Register controllers at the Host level
                 .AddApplicationPart(tasksAssembly)
                 .AddControllersAsServices();
-                //services.AddEndpointsApiExplorer(); // for Swagger
                 // register Swagger generator
-                services.AddSwaggerGen(options =>  
-                    options.SwaggerDoc("v1", new OpenApiInfo 
-                    { 
-                        Title = "TaskForge APIs", 
-                        Version = "v1" 
+                services.AddSwaggerGen(options =>
+                    options.SwaggerDoc("v1", new OpenApiInfo
+                    {
+                        Title = "TaskForge APIs",
+                        Version = "v1"
                     }));
-
             })
             .ConfigureWebHostDefaults(webHost =>
             {
