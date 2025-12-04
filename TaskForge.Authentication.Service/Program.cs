@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi;
+using TaskForge.Authentication.Database;
+using TaskForge.Authentication.Services;
 using TaskForge.Shared;
-using TaskForge.Tasks.Database;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddDbContext<TasksDbContext>(options =>
+builder.Services.AddDbContext<AuthDbContext>(options =>
     options.UseNpgsql(new Configuration()
     {
         Host = builder.Configuration["PostgresConnectionString:Host"],
@@ -13,10 +14,11 @@ builder.Services.AddDbContext<TasksDbContext>(options =>
         Username = builder.Configuration["PostgresConnectionString:Username"],
         Password = builder.Configuration["PostgresConnectionString:Password"]
     }.ToConnectionString()));
-builder.Services.AddScoped<ITasksService, TasksService>();
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddAuthentication();
+
+builder.Services.AddScoped<IAuthService, AuthenticationService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 builder.Services.AddAuthorization();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -26,11 +28,10 @@ builder.Services.AddSwaggerGen(options =>
         Version = "v1"
     });
 });
+builder.Services.AddControllers();
 
 var app = builder.Build();
-app.UseExceptionHandler("/error"); // Optional
-app.UseRouting();
-app.UseAuthentication();
+
 app.UseAuthorization();
 app.UseSwagger();
 app.UseSwaggerUI(options =>
@@ -39,4 +40,5 @@ app.UseSwaggerUI(options =>
     options.RoutePrefix = "swagger";
 });
 app.MapControllers();
+
 app.Run();

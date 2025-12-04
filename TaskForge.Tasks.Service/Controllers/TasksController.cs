@@ -8,7 +8,8 @@ public class TasksController : ControllerBase
 
     public TasksController(ITasksService tasksService)
     {
-        _tasksService = tasksService ?? throw new ArgumentNullException(nameof(tasksService));
+        _tasksService = tasksService ?? 
+            throw new ArgumentNullException(nameof(tasksService));
     }
 
     // todo: error handling and add a controller to get all tasks
@@ -23,7 +24,8 @@ public class TasksController : ControllerBase
     [HttpPost("createTask")]
     public async Task<IActionResult> CreateTask([FromBody] CreateTaskRequest request)
     {
-        var task = await _tasksService.CreateTask(request.Name, request.Description, request.DueDate);
+        var task = await _tasksService.CreateTask(request.ProjectId, request.BoardId,
+            request.Name, request.Description, request.DueDate);
         return CreatedAtAction(nameof(GetTask), new { id = task.TaskId }, task);
     }
 

@@ -1,8 +1,7 @@
 # TaskForge
 
-TaskForge is a small task management solution composed of a Blazor UI and a backend Tasks service. This repository contains a Blazor client (`TaskForge.UI`) and an ASP.NET Core Web API service (`TaskForge.Tasks.Service`) that stores tasks and subtasks using Entity Framework Core with PostgreSQL.
+TaskForge is a small task management solution composed of a Angular UI and a backend Tasks service. This repository contains a Blazor client (`TaskForge.UI`) and an ASP.NET Core Web API service (`TaskForge.Tasks.Service`) that stores tasks and subtasks using Entity Framework Core with PostgreSQL.
 
-- `TaskForge.UI` - Blazor Server UI.
 - `TaskForge.Tasks.Service` - ASP.NET Core Web API (controllers).
 - `TaskForge.Tasks` - Shared domain models, EF Core database context and migrations.
 
@@ -26,7 +25,7 @@ TaskForge is a small task management solution composed of a Blazor UI and a back
      }
      ```
 
-- EF Core migrations (example)
+- EF Core migrations
    - If migrations are not present, create and apply them from repo root:
      - Add migration:
        `dotnet ef migrations add InitialCreate -p TaskForge.Tasks.Service -s TaskForge.Tasks.Service`

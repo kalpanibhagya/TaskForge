@@ -1,4 +1,7 @@
-# Visual Studio / Rider / VS Code
+.github/
+.git/
+.github/workflows/
+*.code-workspace
 .vs/
 .vscode/
 .idea/
@@ -6,25 +9,17 @@
 *.user
 *.userosscache
 *.sln.docstates
-
-# Build outputs
 bin/
 obj/
 out/
 publish/
 artifacts/
-
-# Rider
 *.sln.iml
 *.ipr
 *.iws
-
-# NuGet
 *.nupkg
 packages/
 project.lock.json
-
-# ASP.NET / .NET
 *.dll
 *.exe
 *.pdb
@@ -36,8 +31,6 @@ project.lock.json
 *.db-journal
 *.sqlite
 *.sqlite3
-
-# Test results / coverage
 TestResults/
 coverage/
 *.trx

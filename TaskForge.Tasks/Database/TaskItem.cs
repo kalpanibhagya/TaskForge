@@ -1,8 +1,8 @@
-﻿namespace TaskForge.Tasks;
+﻿namespace TaskForge.Tasks.Database;
 
 public abstract class TaskBase
 {
-    public Guid TaskId { get; protected set; }
+    public Guid TaskId { get; }
     public string Name { get; set; }
     public string Description { get; set; }
     public TaskStatus Status { get; set; } = TaskStatus.Todo;
@@ -21,19 +21,21 @@ public abstract class TaskBase
     public void MarkCompleted() => Status = TaskStatus.Completed;
     public void MarkInProgress() => Status = TaskStatus.InProgress;
     public void Hold() => Status = TaskStatus.OnHold;
-
+    public void Ignore() => Status = TaskStatus.Ignored;
 }
 
 public class TaskItem : TaskBase
 {
+    public Guid BoardId { get; set; }
     public DateTime DueDate { get; set; }
     public TaskPriority Priority { get; set; } = TaskPriority.Medium;
     public string Label { get; set; }
     public bool IsRecurring { get; set; } = false;
     protected TaskItem() : base() { }
-    public TaskItem(string name, string description, DateTime dueDate)
+    public TaskItem(Guid boardId, string name, string description, DateTime dueDate)
         : base(name, description)
     {
+        BoardId = boardId;
         DueDate = dueDate;
     }
 

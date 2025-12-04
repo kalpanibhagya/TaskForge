@@ -1,7 +1,14 @@
-﻿namespace TaskForge.Tasks.Service.Requests;
+﻿using TaskForge.Tasks.Database;
+using TaskStatus = TaskForge.Tasks.Database.TaskStatus;
+
+namespace TaskForge.Tasks.Service.Requests;
 
 public class CreateTaskRequest 
 {
+    [Required]
+    public Guid ProjectId { get; set; }
+    [Required]
+    public Guid BoardId { get; set; }
     [Required]
     public string Name { get; set; }
     [Required]
